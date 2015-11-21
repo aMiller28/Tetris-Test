@@ -1,16 +1,17 @@
-package tetris.veiw;
+package tetris.view;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import tetris.StartApp;
 
 public class StartPageController
 {
 	@FXML
-	private AnchorPane mainPage;
+	private BorderPane mainPage;
 	private Stage stage;
 	
 	private StartApp startApp;
@@ -28,7 +29,7 @@ public class StartPageController
 	
 	public void setDialogStage(Stage stage)
 	{
-		this.stage = stage;
+
 	}
 	
 	@FXML
