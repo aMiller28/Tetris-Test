@@ -2,8 +2,6 @@ package tetris.view;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import tetris.StartApp;
@@ -41,13 +39,13 @@ public class StartPageController
 	@FXML
 	private void handleStartGame()
 	{
-		
+		startApp.showGameLayout();
 	}
 	
 	@FXML
 	private void handleHighScores()
 	{
-		
+		startApp.showHighScoreDialog();
 	}
 	
 	@FXML
