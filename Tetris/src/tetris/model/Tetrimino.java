@@ -111,15 +111,11 @@ public class Tetrimino extends Group implements Cloneable
 	                final int finI = i;
 	                final int finJ = j;
 	                
-	                ChangeListener<Number> changeListener = new ChangeListener<Number>() {
-	                    @Override
-	                    public void changed(ObservableValue<? extends Number> observableValue, Number oldNumber, Number newNumber)
-	                    {
-	                        rectangle.setWidth(newNumber.doubleValue());
-	                        rectangle.setHeight(newNumber.doubleValue());
-	                        rectangle.setTranslateY(newNumber.doubleValue() * finI);
-	                        rectangle.setTranslateX(newNumber.doubleValue() * finJ);
-	                    }
+	                ChangeListener<Number> changeListener = (observableValue, oldNumber, newNumber) -> {
+	                rectangle.setWidth(newNumber.doubleValue());
+                    rectangle.setHeight(newNumber.doubleValue());
+                    rectangle.setTranslateY(newNumber.doubleValue() * finI);
+                    rectangle.setTranslateX(newNumber.doubleValue() * finJ);
 	                };
 	                
 	                rectangle.setUserData(changeListener);
