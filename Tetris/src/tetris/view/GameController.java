@@ -3,9 +3,7 @@ package tetris.view;
 import javafx.fxml.FXML;
 import javafx.geometry.HorizontalDirection;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -60,12 +58,6 @@ public class GameController
 		
 	}
 	
-    @FXML
-    public void handlePause()
-    {
-    	
-    }
-
 	public void setSceneListener(Scene mainScene, GameController controller)
 	{
 		mainScene.setOnKeyPressed(k-> {
@@ -75,18 +67,12 @@ public class GameController
 				
 				if(this.paused)
 				{
-					//Pause Movement
-					this.status.setText("PAUSED");
-					this.status.setLayoutX(this.well.getWidth()/2);
-					this.status.setLayoutX(this.well.getHeight()/2 + 50);
-					this.status.setVisible(true);
-					this.well.getChildren().add(this.status);
-							
+					pauseGame();							
 				}
 				else
 				{
+					unPauseGame();
 					//Play Movement
-					this.well.getChildren().remove(this.status);
 				}
 			}
         	else if(this.gameOver && k.getCode() == KeyCode.ENTER)
@@ -96,36 +82,96 @@ public class GameController
 			
 			if (k.getCode() == KeyCode.LEFT && !paused) 
 			{
-                 controller.getGameBoard().move(HorizontalDirection.LEFT);
+                 controller.getGameBoard().moveLeftRight(HorizontalDirection.LEFT);
                  k.consume();
             }
 
-            if (k.getCode() == KeyCode.RIGHT && !paused) {
-                 controller.getGameBoard().move(HorizontalDirection.RIGHT);
+            if (k.getCode() == KeyCode.RIGHT && !paused)
+            {
+                 controller.getGameBoard().moveLeftRight(HorizontalDirection.RIGHT);
                  k.consume();
             }
 
-            if (k.getCode() == KeyCode.UP && !paused) {
+            if (k.getCode() == KeyCode.UP && !paused)
+            {
                  controller.getGameBoard().rotate(HorizontalDirection.LEFT);
                  k.consume();
             }
 
-            if (k.getCode() == KeyCode.DOWN) {
-                 if (!descending) {
+            if (k.getCode() == KeyCode.DOWN)
+            {
+                 if (!descending)
+                 {
                      if (!paused)
                      {
-                         controller.getGameBoard().descendFast();
+                         controller.getGameBoard().fastDescend();
                      }
                      descending = true;
                      k.consume();
                  }
              }
 		});
+		
+		mainScene.setOnKeyReleased(k -> {
+			if(k.getCode() == KeyCode.DOWN)
+			{
+				descending = false;
+				controller.getGameBoard().moveDown();
+			}
+		});
 	}
 	
+	private void unPauseGame()
+	{
+		mediaPlayer.play();
+		gameBoard.play();
+		this.well.getChildren().remove(this.status);
+	}
+
+	public boolean paused()
+	{
+	    return paused;
+	}
+
+	public void newGameStart() 
+	{
+		initialize();
+	    gameBoard.start();
+	}
+
+	private void pauseGame()
+	{
+		this.status.setText("PAUSED");
+		this.status.setLayoutX(this.well.getWidth()/2);
+		this.status.setLayoutX(this.well.getHeight()/2 + 50);
+		this.status.setVisible(true);
+		this.well.getChildren().add(this.status);
+	    mediaPlayer.pause();
+	    gameBoard.pause();
+	}
+
+	public void stop() 
+	{
+	    mediaPlayer.stop();
+	    gameBoard.clear();
+	    setScore("0");
+	    paused = false;
+	}
+
+	public void play() 
+	{
+	    paused = false;
+	    gameBoard.play();
+	}
+
 	public GameBoard getGameBoard()
 	{
 		return gameBoard;
+	}
+	
+	public void setScore(String score)
+	{
+		this.score.setText(score);
 	}
 	
 	

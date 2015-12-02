@@ -4,7 +4,6 @@ import java.util.Random;
 
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WeakChangeListener;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -102,29 +101,22 @@ public class Tetrimino extends Group implements Cloneable
 		this.blockSize = blockSize;
 		this.paintTetrimino = tetriminoShape.color;
 		
+		//Creates the tetrimino shape by creating the collection of child nodes that form the group
+		//of the shape to be created
 		 for (int i = 0; i < shapeMatrix.length; i++)
 		 {
 	            for (int j = 0; j < shapeMatrix[i].length; j++)
 	            {
-
+	            	//Creates the block to occupy the position in the group for the block
 	                Rectangle rectangle = new Rectangle();
-	                final int finI = i;
-	                final int finJ = j;
-	                
-	                ChangeListener<Number> changeListener = (observableValue, oldNumber, newNumber) -> {
-	                rectangle.setWidth(newNumber.doubleValue());
-                    rectangle.setHeight(newNumber.doubleValue());
-                    rectangle.setTranslateY(newNumber.doubleValue() * finI);
-                    rectangle.setTranslateX(newNumber.doubleValue() * finJ);
-	                };
-	                
-	                rectangle.setUserData(changeListener);
-	                blockSize.addListener(new WeakChangeListener<>(changeListener));
+	                    
 	                rectangle.setWidth(blockSize.doubleValue());
 	                rectangle.setHeight(blockSize.get());
-	                rectangle.setTranslateY(blockSize.get() * finI);
-	                rectangle.setTranslateX(blockSize.get() * finJ);
-
+	                rectangle.setTranslateY(blockSize.get() * i);
+	                rectangle.setTranslateX(blockSize.get() * j);
+	                
+	                //If a block to be displayed is built fill the block
+	                //with the defined color of the tetrimino being built
 	                if (shapeMatrix[i][j] == 1) 
 	                {
 	                    rectangle.setFill(tetriminoShape.color);
@@ -145,8 +137,7 @@ public class Tetrimino extends Group implements Cloneable
     /**
      * Class for the shape of the tetrimino
      * @author awm31
-     *
-     */
+    */
     private class TetriminoShape
     {
         private Color color;
@@ -166,6 +157,12 @@ public class Tetrimino extends Group implements Cloneable
         }
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#clone()
+     * Used to make copies of the tetrimino without
+     * assigning a different vairable each time a copy
+     * is made
+     */
     @Override
     public Tetrimino clone()
     {
