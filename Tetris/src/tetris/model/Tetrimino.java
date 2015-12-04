@@ -3,8 +3,6 @@ package tetris.model;
 import java.util.Random;
 
 import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.WeakChangeListener;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -18,7 +16,7 @@ import javafx.scene.shape.Rectangle;
  * @author awm31
  *
  */
-public class Tetrimino extends Group implements Cloneable
+public class Tetrimino extends Group
 {
 	//Definition of the I shape matrix and shape color
    	private TetriminoShape I = new TetriminoShape(new int [][]{
@@ -157,18 +155,6 @@ public class Tetrimino extends Group implements Cloneable
         }
     }
     
-    /* (non-Javadoc)
-     * @see java.lang.Object#clone()
-     * Used to make copies of the tetrimino without
-     * assigning a different vairable each time a copy
-     * is made
-     */
-    @Override
-    public Tetrimino clone()
-    {
-		return new Tetrimino(tetriminoShape, blockSize);
-    	
-    }
     
     /**
      * Random shape generator for tetriminos, selectes a random shape from
